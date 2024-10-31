@@ -1,7 +1,10 @@
 import {createSimilarObjects} from './moc.js';
+import {renderSimilarThumb} from './popup.js';
+import {makeInactive, makeActive} from './form.js';
 
-// console.log('Hello bitch')
 
-console.log(createSimilarObjects);
+// renderSimilarThumb(createSimilarObjects);
 
+makeInactive();
+// makeActive();
 
