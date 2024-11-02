@@ -5,6 +5,6 @@ import {makeInactive, makeActive} from './form.js';
 
 // renderSimilarThumb(createSimilarObjects);
 
-makeInactive();
+// makeInactive();
 // makeActive();
 
