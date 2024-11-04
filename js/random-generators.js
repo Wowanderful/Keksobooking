@@ -5,9 +5,9 @@ const randomNumber = (min, max) => {
 
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно.
 const randomFloat = (min, max, number) => {
-  const n = min + Math.random() * (max + 1 - min)
+  const n = Math.random() * (max - min) + min;
   return (max < min) ? "Ошибка - неправильный диапозон чисел"
-  : +n.toFixed(number)
+  : n.toFixed(number)
   }
 
   //функция для расчета номера автара

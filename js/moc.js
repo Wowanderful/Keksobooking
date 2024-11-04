@@ -53,4 +53,4 @@ const createSimilarObjects = Array.from({length: 10}, createObject);
 
 console.log(createSimilarObjects)
 
-export {createSimilarObjects, createObject}
+export {createSimilarObjects, createObject, randomFloat}

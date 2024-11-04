@@ -6,9 +6,9 @@ const parent = document.querySelector('#map-canvas')
 const template = document.querySelector('#card').content.querySelector('.popup');
 const fragment = document.createDocumentFragment();
 
-const renderSimilarThumb = (thumb) => {
+const renderSimilarThumb = (element) => {
 
-  thumb.forEach((element) => {
+
     const newPost = template.cloneNode(true);
     newPost.querySelector('.popup__avatar').src = element.author;
     newPost.querySelector('.popup__avatar').alt = element.offer.title;
@@ -37,12 +37,12 @@ const renderSimilarThumb = (thumb) => {
     newPost.querySelector('.popup__description').textContent = element.offer.description;
     newPost.querySelector('.popup__photo').src = element.offer.photos;
 
-    fragment.appendChild(newPost);
-  });
-  parent.appendChild(fragment)
+    return newPost;
+  };
 
 
-}
+
+
 
 export {renderSimilarThumb};
 
