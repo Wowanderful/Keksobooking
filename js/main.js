@@ -1,12 +1,15 @@
 import {createSimilarObjects} from './moc.js';
 import {makeInactive, makeActive, validateForm, setCheckInOut} from './form.js';
 import {createMainMarker, createMarker} from './map.js';
+import {setupSlider} from './slider.js';
 
 makeInactive();
 
 validateForm();
 
 setCheckInOut();
+
+setupSlider();
 
 
 const address = document.getElementById('address');
@@ -34,3 +37,5 @@ createSimilarObjects.forEach((element) => {
 });
 
 export {map};
+
+
