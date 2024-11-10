@@ -37,9 +37,11 @@ function makeActive () {
   for (let i of activeFilterSelectors) {
     i.removeAttribute('disabled', '')
   };
+
+
 }
 
-function validateForm () {
+
 //Валидатор - инициация
 const pristine = new Pristine (adform, {
   classTo: 'ad-form__element',
@@ -54,7 +56,7 @@ const pristine = new Pristine (adform, {
 
 //Валидируется поле заголовок объвления
 function validateTitle (value) {
-  return value.length >= 10 && value.length <= 100;
+  return value.length >= 30 && value.length <= 100;
 };
 
 //Валидируется поле Price
@@ -66,7 +68,7 @@ const minPrice = {
   'palace': 10000
 }
 
-const accommodation = document.getElementById('type').selectedOptions[0]
+const accommodation = document.getElementById('type').selectedOptions[0];
 
 function ammendPlaceholder (value) {//Функция, которая меняет плейсхолдер поля с ценой в зависимости от вида жилья
   price.setAttribute('placeholder', value)
@@ -115,7 +117,7 @@ function getRoomsErrorMessage () {
   }
 }
 
-pristine.addValidator(document.getElementById('title'), validateTitle, 'От 10 до 100 символов');
+pristine.addValidator(document.getElementById('title'), validateTitle, 'От 30 до 100 символов');
 
 pristine.addValidator(document.getElementById('price'), validatePrice, `От ${minPrice[accommodation.value]} До 100 000`);
 
@@ -124,10 +126,56 @@ pristine.addValidator(roomSelector, validateGuests, getRoomsErrorMessage);
 pristine.addValidator(guestSelector, validateGuests, getRoomsErrorMessage);
 
 // На форму вешается события валидации
-adform.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-  });
+// adform.addEventListener('submit', (evt) => {
+//   evt.preventDefault();
+//   const isValid = pristine.validate();
+//   if (isValid) {
+//     const formData = new FormData(evt.target);
+
+//     fetch(
+//       'https://25.javascript.htmlacademy.pro/keksobooking',
+//       {
+//         method: 'POST',
+//         body: formData,
+//       },
+//     );
+//   }
+//   });
+
+function setuserFormSubmit (onSuccess, onFail) {
+  const adform = document.querySelector('.ad-form');
+  adform.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target);
+
+      fetch(
+        'https://25.javascript.htmlacademy.pro/keksobooking',
+        {
+          method: 'POST',
+          body: formData,
+          credentials: 'same-origin',
+        },
+      )
+      .then((response) => {
+        console.log(response.status);
+        if (response.ok) {
+          onSuccess();
+          adform.reset();
+        }
+        else {
+          onFail();
+        }
+
+
+      })
+      .catch(() => {
+        onFail();
+      }
+      )
+    }
+    });
 }
 
 //Синхронизация времени Check-in and check-out
@@ -165,4 +213,4 @@ function setCheckInOut () {
   selectCheckOut.addEventListener('change', synchronizeTime);
 }
 
-export {makeInactive, makeActive, setCheckInOut, validateForm}
+export {makeInactive, makeActive, setCheckInOut, setuserFormSubmit}

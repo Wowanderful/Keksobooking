@@ -8,9 +8,8 @@ const fragment = document.createDocumentFragment();
 
 const renderSimilarThumb = (element) => {
 
-
     const newPost = template.cloneNode(true);
-    newPost.querySelector('.popup__avatar').src = element.author;
+    newPost.querySelector('.popup__avatar').src = element.author.avatar;
     newPost.querySelector('.popup__avatar').alt = element.offer.title;
     newPost.querySelector('.popup__title').textContent = element.offer.title;
     newPost.querySelector('.popup__text--address').textContent = element.offer.address;
