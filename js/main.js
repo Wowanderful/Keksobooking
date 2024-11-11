@@ -38,26 +38,5 @@ const map = L.map('map-canvas')
   const markerGroup = L.layerGroup().addTo(map)
 createMainMarker();
 
-// adform.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   const isValid = pristine.validate();
-//   if (isValid) {
-//     const formData = new FormData(evt.target);
-
-//     fetch(
-//       'https://25.javascript.htmlacademy.pro/keksobooking',
-//       {
-//         method: 'POST',
-//         body: formData,
-//       },
-//     );
-//   }
-//   });
-
-
-// createSimilarObjects.forEach((element) => {
-//   createMarker(element)
-// });
-
 export {map, markerGroup}
 

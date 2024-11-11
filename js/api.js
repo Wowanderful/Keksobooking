@@ -1,38 +1,15 @@
 
-// import {createMarker} from './map.js';
 
 import {randomFloat} from './random-generators.js';
 import {map, markerGroup} from './main.js';
 import {renderSimilarThumb} from './popup.js';
-import {makeActive} from './form.js'
-
-// const address = document.getElementById('address');
-// const map = L.map('map-canvas')
-//   .on('load', () => {
-//     makeActive();
-//     address.value = 'LatLng(35.67749, 139.76854)';
-//   })
-//   .setView({
-//     lat: 35.67749,
-//     lng: 139.76854,
-//   }, 13);
-
-//   L.tileLayer(
-//     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-//     {
-//       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//     },
-//   ).addTo(map);
-
-//Other markers
+import {debounce} from './debounce.js';
 
 const iconSmall = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40],
 });
-
-
 
 //Function for creating marker
 const createMarker = (element) => {
@@ -114,41 +91,117 @@ function getData() {
     })
     .then((listOfObjects) => {
       const accommodation = document.getElementById('housing-type');
+      const price = document.getElementById('housing-price');
+      const rooms = document.getElementById('housing-rooms');
+      const guests = document.getElementById('housing-guests');
+      const features = document.getElementById('housing-features');
       let currentMarkers = []; // Array to keep track of markers on the map
 
-      const deleteMarkers = () => {
-        // Clear existing markers using a method appropriate to your map library
-        currentMarkers.forEach((marker) => {
-          if (marker) {
-            // If using Leaflet:
-            map.removeLayer(marker);
-          }
-        });
-        currentMarkers = []; // Clear the array of current markers
-      }
       const createMarkers = () => {
-        // Ensure there is a selected option
         const selectedType = accommodation.selectedOptions[0]?.value;
-        if (!selectedType) return;
+        const priceType = price.selectedOptions[0]?.value;
+        const roomType = rooms.selectedOptions[0]?.value;
+        const guestsNumber = guests.selectedOptions[0]?.value;
+        const featureIn = features.value;
+
+        let filteredList;
 
         // Filter the list based on the selected housing type and apply a limit
-        const filteredList = listOfObjects
+        if (selectedType === 'any' || !selectedType) {
+          filteredList = listOfObjects.slice(0, POINTSLIMIT);
+        }
+        else {
+        filteredList = listOfObjects
           .filter((element) => element.offer.type === selectedType)
           .slice(0, POINTSLIMIT);
+        };
+
+        //Filter the list based on the selected price limit
+        if (priceType === 'any' || !priceType) {
+          filteredList = listOfObjects.slice(0, POINTSLIMIT);
+        }
+        else if (priceType === 'middle') {
+          filteredList = listOfObjects
+          .filter((element) => element.offer.price >= 10000 && element.offer.price < 50000)
+          .slice(0, POINTSLIMIT);
+        }
+        else if (priceType === 'low') {
+          filteredList = listOfObjects
+          .filter((element) => element.offer.price < 10000)
+          .slice(0, POINTSLIMIT);
+        }
+        else if (priceType === 'high') {
+          filteredList = listOfObjects
+          .filter((element) => element.offer.price >= 50000)
+          .slice(0, POINTSLIMIT);
+        }
+
+        //Filter the list based on selected number of rooms
+        if (roomType === 'any' || !roomType) {
+          filteredList = listOfObjects.slice(0, POINTSLIMIT);
+        }
+        else {
+          filteredList = listOfObjects
+          .filter((element) => element.offer.rooms === parseInt(roomType))
+          .slice(0, POINTSLIMIT);
+        }
+
+        //Filter the list based on selected number of rooms
+        if (guestsNumber === 'any' || !guestsNumber) {
+              filteredList = listOfObjects.slice(0, POINTSLIMIT);
+            }
+        else {
+              filteredList = listOfObjects
+              .filter((element) => element.offer.guests === parseInt(guestsNumber))
+              .slice(0, POINTSLIMIT);
+            }
+
+        // Filter the list based on features checked
+        if (!featureIn) {
+          filteredList = listOfObjects.slice(0, POINTSLIMIT);
+        }
+        else {
+          filteredList = listOfObjects
+          .filter((element) => element.offer.features.includes(featureIn.value))
+          .slice(0, POINTSLIMIT);
+        }
+
 
         // Create new markers for each filtered element
         filteredList.forEach((element) => {
-          const marker = createMarker(element); // Assuming createMarker returns a marker instance
+          const marker = createMarker(element);
           if (marker) {
-            currentMarkers.push(marker); // Keep track of new markers if marker is valid
+            currentMarkers.push(marker);
           }
         });
       };
 
-      accommodation.addEventListener('change', () => {
+      createMarkers();//No events, just loading
+
+      accommodation.addEventListener('change', () => {//Accomodation selection choice event
         markerGroup.clearLayers();
-        createMarkers();
+        debounce(createMarkers(), 500);
       });
+
+      price.addEventListener('change', () => {//Price selection choice event
+        markerGroup.clearLayers();
+        debounce(createMarkers(), 500);
+      });
+
+      rooms.addEventListener('change', () => {//Number of rooms selection choice event
+        markerGroup.clearLayers();
+        debounce(createMarkers(), 500);
+      })
+
+      guests.addEventListener('change', () => {//Number of guests selection choice event
+        markerGroup.clearLayers();
+        debounce(createMarkers(), 500);
+      })
+
+      features.addEventListener('change', () => {//Features availability choice event
+        markerGroup.clearLayers();
+        debounce(createMarkers(), 500);
+      })
 
     })
     .catch((err) => {

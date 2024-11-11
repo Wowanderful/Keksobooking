@@ -125,23 +125,6 @@ pristine.addValidator(roomSelector, validateGuests, getRoomsErrorMessage);
 
 pristine.addValidator(guestSelector, validateGuests, getRoomsErrorMessage);
 
-// На форму вешается события валидации
-// adform.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   const isValid = pristine.validate();
-//   if (isValid) {
-//     const formData = new FormData(evt.target);
-
-//     fetch(
-//       'https://25.javascript.htmlacademy.pro/keksobooking',
-//       {
-//         method: 'POST',
-//         body: formData,
-//       },
-//     );
-//   }
-//   });
-
 function setuserFormSubmit (onSuccess, onFail) {
   const adform = document.querySelector('.ad-form');
   adform.addEventListener('submit', (evt) => {
