@@ -1,10 +1,8 @@
-// console.log('Hi Bitch')
-import {createSimilarObjects} from './moc.js';
-import {createObject} from './moc.js';
 
-const parent = document.querySelector('#map-canvas')
+// import {createSimilarObjects} from './moc.js';
+// import {createObject} from './moc.js';
+
 const template = document.querySelector('#card').content.querySelector('.popup');
-const fragment = document.createDocumentFragment();
 
 const renderSimilarThumb = (element) => {
 
@@ -38,10 +36,6 @@ const renderSimilarThumb = (element) => {
 
     return newPost;
   };
-
-
-
-
 
 export {renderSimilarThumb};
 

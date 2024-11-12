@@ -1,5 +1,3 @@
-
-
 import {randomFloat} from './random-generators.js';
 import {map, markerGroup} from './main.js';
 import {renderSimilarThumb} from './popup.js';
@@ -166,7 +164,6 @@ function getData() {
           .slice(0, POINTSLIMIT);
         }
 
-
         // Create new markers for each filtered element
         filteredList.forEach((element) => {
           const marker = createMarker(element);
@@ -205,10 +202,9 @@ function getData() {
 
     })
     .catch((err) => {
+      console.log(err);
       showAlert();
     });
 }
-
-
 
 export {createMainMarker, createMarker, getData};

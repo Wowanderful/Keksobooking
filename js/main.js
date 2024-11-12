@@ -1,20 +1,18 @@
 import {createSimilarObjects} from './moc.js';
 import {makeInactive, makeActive, setuserFormSubmit, setCheckInOut} from './form.js';
-// import {createMainMarker, createMarker} from './map.js';
 import {successMessage, errorMessage} from './modals.js';
 import {getData, createMainMarker, createMarker} from './api.js';
-
-
+import {loadAvatarPreview, loadPhotoPreview} from './photo.js'
 
 makeInactive();
 
+loadAvatarPreview();
 
+loadPhotoPreview();
 
 setCheckInOut();
 
 setuserFormSubmit(successMessage, errorMessage);
-
-console.log(createSimilarObjects)
 
 const address = document.getElementById('address');
 
@@ -36,7 +34,8 @@ const map = L.map('map-canvas')
     },
   ).addTo(map);
   const markerGroup = L.layerGroup().addTo(map)
+
 createMainMarker();
 
-export {map, markerGroup}
+export {map, markerGroup, createMainMarker}
 

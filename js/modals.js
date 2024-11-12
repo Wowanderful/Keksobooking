@@ -1,3 +1,5 @@
+// import {createMainMarker} from './api.js';
+
 const body = document.querySelector('body');
 
 const isEscapeKey = (evt) => {
@@ -28,6 +30,8 @@ const createSuccess = () => {
   const template = document.getElementById('success').content.querySelector('.success');
   const successAlert = template.cloneNode(true);
   body.appendChild(successAlert);
+  document.querySelector('.ad-form').reset();
+
 }
 
 const successMessage = () => {

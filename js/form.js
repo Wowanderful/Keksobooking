@@ -1,14 +1,13 @@
-  const adform = document.querySelector('.ad-form');
-  const mapfilter = document.querySelector('.map__filters');
-  const activeFormElements = adform.querySelectorAll('fieldset');
-  const activeFilterElements = mapfilter.querySelectorAll('fieldset');
-  const activeFilterSelectors = mapfilter.querySelectorAll('select');
-  const price = document.getElementById('price');
-  const accSelector = document.getElementById('type');
+const adform = document.querySelector('.ad-form');
+const mapfilter = document.querySelector('.map__filters');
+const activeFormElements = adform.querySelectorAll('fieldset');
+const activeFilterElements = mapfilter.querySelectorAll('fieldset');
+const activeFilterSelectors = mapfilter.querySelectorAll('select');
+const price = document.getElementById('price');
+const accSelector = document.getElementById('type');
 
 //Все поля формы делаются неактивными
 function makeInactive () {
-
   adform.classList.add('ad-form--disabled');
   mapfilter.classList.add('map__filters--disabled');
 
@@ -37,10 +36,7 @@ function makeActive () {
   for (let i of activeFilterSelectors) {
     i.removeAttribute('disabled', '')
   };
-
-
 }
-
 
 //Валидатор - инициация
 const pristine = new Pristine (adform, {
@@ -51,8 +47,7 @@ const pristine = new Pristine (adform, {
   errorTextTag: 'span',
   errorTextClass: 'ad-form__error'
 }, false
-  );
-
+);
 
 //Валидируется поле заголовок объвления
 function validateTitle (value) {
@@ -66,19 +61,19 @@ const minPrice = {
   'hotel': 3000,
   'house': 5000,
   'palace': 10000
-}
+};
 
 const accommodation = document.getElementById('type').selectedOptions[0];
 
 function ammendPlaceholder (value) {//Функция, которая меняет плейсхолдер поля с ценой в зависимости от вида жилья
   price.setAttribute('placeholder', value)
 }
+
 accSelector.addEventListener('change', (evt) => {
   evt.preventDefault();
   const selectedAccommodation = accSelector.selectedOptions[0].value; // Get updated selected option value
   ammendPlaceholder(minPrice[selectedAccommodation]);
 });
-
 
 function validatePrice (value) {
   return value.length && value > minPrice[accommodation.value] && value < 100000;
@@ -150,8 +145,6 @@ function setuserFormSubmit (onSuccess, onFail) {
         else {
           onFail();
         }
-
-
       })
       .catch(() => {
         onFail();
